@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -626,7 +627,7 @@
             </div>
 
             <div class="btnrow">
-              <button class="btn" id="checkBtn">Check Now</button>
+              <button class="btn" id="checkBtn" type="button">Check Now</button>
               <button class="btn secondary" id="resetBtn" type="button">Reset</button>
             </div>
 
@@ -673,7 +674,7 @@
   <div class="sticky" id="sticky">
     <div class="inner">
       <div class="mini" id="stickyText"><b>Eligible ✓</b> Proceed to paymentment — Rs.1 today (1 day), then Rs.499/month auto-renew.</div>
-      <button class="go" id="goBtn">Continue</button>
+      <button class="go" id="goBtn" type="button">Continue</button>
     </div>
   </div>
 
@@ -681,7 +682,7 @@
     <div class="modal">
       <div class="head">
         <b id="modalTitle">Confirm before redirect</b>
-        <button id="closeModal" aria-label="close">×</button>
+        <button id="closeModal" aria-label="close" type="button">×</button>
       </div>
       <div class="body">
         <p id="modalP">You’re about to open the official payment page.</p>
@@ -691,8 +692,8 @@
           <b>Note:</b> “Win Rs 100,000” is a chance-based campaign. T&amp;C apply.
         </div>
         <div class="actions">
-          <button class="btn secondary" id="cancelGo">Cancel</button>
-          <button class="btn" id="confirmGo">I Understand — Continue</button>
+          <button class="btn secondary" id="cancelGo" type="button">Cancel</button>
+          <button class="btn" id="confirmGo" type="button">I Understand — Continue</button>
         </div>
         <div class="hint" style="margin-top:10px" id="modalHint">Tip: keep this text visible to reduce user complaints & improve approval rates.</div>
       </div>
@@ -710,7 +711,7 @@
     function buildOfferUrl(){
       // Preserve current query string (subid, zone, cost, etc.)
       const qs = window.location.search;
-      if(!OFFER_URL || OFFER_URL.includes("https://rejruy.mcgo2.com/click")) return "";
+      if(!OFFER_URL || OFFER_URL.includes("REPLACE_WITH_YOUR_TRACKING_LINK")) return "";
       if(!qs) return OFFER_URL;
       return OFFER_URL + (OFFER_URL.includes("?") ? "&" : "?") + qs.replace(/^\?/, "");
     }
@@ -755,7 +756,7 @@
         setStatus("warn", "Offer link not set", "Replace OFFER_URL in the HTML with your tracking/campaign link, then refresh.");
         return;
       }
-      window.location.href = url;
+      window.location.assign(url);
     }
 
     $("checkBtn").addEventListener("click", function(){
@@ -770,9 +771,6 @@
       // Eligible
       setStatus("ok", "Available ✓", "Your number looks valid for this campaign. Review pricing & auto-renewal, then continue to the official payment page.");
       sticky.classList.add("show");
-
-      // subtle scroll to reveal sticky on small screens
-      if(window.innerWidth < 520) window.scrollTo({top: 0, behavior: "smooth"});
     });
 
     $("resetBtn").addEventListener("click", function(){
