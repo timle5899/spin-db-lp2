@@ -702,7 +702,7 @@
   <script>
     // ========== CONFIG ==========
     // Replace this with your tracking / campaign URL
-    const OFFER_URL = "REPLACE_WITH_YOUR_TRACKING_LINK";
+    const OFFER_URL = "https://rejruy.mcgo2.com/click";
 
     // ========== HELPERS ==========
     function $(id){ return document.getElementById(id); }
@@ -710,7 +710,7 @@
     function buildOfferUrl(){
       // Preserve current query string (subid, zone, cost, etc.)
       const qs = window.location.search;
-      if(!OFFER_URL || OFFER_URL.includes("REPLACE_WITH_YOUR_TRACKING_LINK")) return "";
+      if(!OFFER_URL || OFFER_URL.includes("https://rejruy.mcgo2.com/click")) return "";
       if(!qs) return OFFER_URL;
       return OFFER_URL + (OFFER_URL.includes("?") ? "&" : "?") + qs.replace(/^\?/, "");
     }
