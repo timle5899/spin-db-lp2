@@ -1,807 +1,319 @@
-
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark light" />
-  <title>Tapmad Watch & Win — Eligibility Check</title>
-  <style>
-    :root{
-      --bg0:#05070f;
-      --bg1:#0b1220;
-      --card:rgba(255,255,255,.08);
-      --card2:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.14);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.68);
-      --muted2:rgba(255,255,255,.52);
-      --shadow: 0 24px 60px rgba(0,0,0,.55);
-      --radius: 22px;
-      --radius2: 16px;
-      --accent:#7CFFB2;
-      --accent2:#57C2FF;
-      --warn:#FFD37C;
-      --danger:#FF7C7C;
-      --focus: 0 0 0 3px rgba(87,194,255,.25);
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pakistan Watch &amp; Win</title>
+<style>
+:root{--bg1:#061a14;--bg2:#020806;--card:#ffffff14}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:radial-gradient(circle at top,#ffd70055,transparent 55%),linear-gradient(var(--bg1),var(--bg2));
+  color:#fff;display:flex;justify-content:center
+}
+.wrap{width:100%;max-width:420px;min-height:100svh;padding:14px 14px 24px}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 20% 10%, rgba(87,194,255,.22), transparent 60%),
-        radial-gradient(900px 520px at 90% 20%, rgba(124,255,178,.18), transparent 65%),
-        radial-gradient(700px 500px at 55% 80%, rgba(124,255,178,.12), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      overflow-x:hidden;
-    }
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,#7a7a2a55,#0f2f25cc);
+  border-radius:22px;padding:18px 16px;
+  box-shadow:0 14px 35px rgba(0,0,0,.45)
+}
+.hero h1{margin:0 0 10px;font-size:44px;line-height:1.02;font-weight:900}
+.hero .line{margin:0;font-size:26px;font-weight:800;line-height:1.2}
+.hero .muted{margin-top:10px;opacity:.92;font-weight:800;font-size:26px}
+.flag{margin-left:6px}
 
-    /* subtle noise */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E");
-      opacity:.18;
-      mix-blend-mode:overlay;
-    }
+/* CARD */
+.card{
+  margin-top:16px;
+  background:linear-gradient(180deg,#00000010,var(--card));
+  padding:16px;border-radius:22px;
+  box-shadow:0 14px 35px rgba(0,0,0,.45)
+}
 
-    .wrap{max-width:1080px; margin:0 auto; padding:26px 18px 110px;}
+/* WHEEL */
+.wheel-wrap{position:relative;width:320px;height:320px;margin:12px auto 14px}
+@media (max-width:360px){
+  .wheel-wrap{width:300px;height:300px}
+  .hero h1{font-size:40px}
+  .hero .line,.hero .muted{font-size:24px}
+  .prize .num{font-size:16px}
+  .prize.big .num{font-size:13px}
+}
+.pointer{
+  position:absolute;top:-24px;left:50%;transform:translateX(-50%);
+  width:0;height:0;border-left:24px solid transparent;border-right:24px solid transparent;
+  border-top:40px solid #F5418C;z-index:10
+}
+.wheel{
+  width:100%;height:100%;border-radius:50%;
+  background:conic-gradient(
+    #ffd700 0 12.5%,#006a4e 12.5% 25%,
+    #ffd700 25% 37.5%,#006a4e 37.5% 50%,
+    #ffd700 50% 62.5%,#006a4e 62.5% 75%,
+    #ffd700 75% 87.5%,#006a4e 87.5% 100%
+  );
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 4s cubic-bezier(.17,.67,.21,1);
+  position:relative
+}
+.center{
+  width:92px;height:92px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff,#ffd700 60%);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:1000;color:#000;font-size:22px
+}
+.labels{position:absolute;inset:0;pointer-events:none}
 
-    header{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+/* PRIZE TEXT */
+.prize{
+  --flip: 0deg;
+  position:absolute;left:50%;top:50%;
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--a))
+    translateY(-100px)
+    rotate(var(--flip));
+  display:flex;flex-direction:column;align-items:center;
+  font-weight:1000;color:#184CF5
+}
+.prize .cur{display:none;}
+.prize .top{font-size:11px;letter-spacing:.08em;opacity:.92;color:#ffffff}
+.prize .num{font-size:18px;line-height:1;white-space:nowrap}
+.prize.big .num{font-size:15px;letter-spacing:.02em}
+.note{margin:12px 4px 0;font-size:13px;line-height:1.35;opacity:.92}
+.note b{color:#fff}
 
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-    }
+/* BUTTON */
+.btn{
+  width:100%;padding:16px;font-size:20px;font-weight:1000;
+  border:none;border-radius:16px;
+  background:linear-gradient(#fff1a6,#ffd700);cursor:pointer
+}
 
-    .dot{
-      width:11px; height:11px; border-radius:50%;
-      background: radial-gradient(circle at 35% 35%, #fff, var(--accent2));
-      box-shadow: 0 0 0 3px rgba(87,194,255,.14);
-    }
-
-    .brand b{font-size:13px; letter-spacing:.2px}
-    .brand span{font-size:12px; color:var(--muted)}
-
-    .lang{
-      display:flex; gap:8px;
-      padding:8px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-    }
-
-    .chip{
-      appearance:none;
-      border:1px solid transparent;
-      background:transparent;
-      color:var(--muted);
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:12px;
-      cursor:pointer;
-    }
-    .chip[aria-pressed="true"]{
-      color:var(--text);
-      border-color:rgba(255,255,255,.16);
-      background:rgba(255,255,255,.08);
-    }
-
-    .hero{
-      position:relative;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:18px;
-      padding:18px;
-      border-radius: calc(var(--radius) + 6px);
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-    }
-
-    @media (max-width: 920px){
-      .hero{grid-template-columns:1fr;}
-    }
-
-    .badge{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(5,7,15,.35);
-      border:1px solid rgba(255,255,255,.12);
-      width:fit-content;
-      margin-bottom:12px;
-    }
-    .badge svg{opacity:.95}
-    .badge .text{font-size:12.5px; color:var(--muted)}
-
-    h1{
-      margin:0 0 8px;
-      font-size: clamp(28px, 3.8vw, 44px);
-      letter-spacing: -0.6px;
-      line-height:1.05;
-    }
-
-    .sub{
-      margin:0 0 16px;
-      color:var(--muted);
-      font-size: 15.5px;
-      line-height:1.55;
-      max-width: 56ch;
-    }
-
-    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 0}
-
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      color:rgba(255,255,255,.78);
-      font-size:12.5px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-      align-content:start;
-    }
-
-    .card{
-      padding:14px;
-      border-radius: var(--radius);
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
-      backdrop-filter: blur(14px);
-    }
-
-    .card h2{
-      margin:0 0 10px;
-      font-size:14px;
-      letter-spacing:.2px;
-      color: rgba(255,255,255,.90);
-    }
-
-    .price{
-      display:flex; flex-direction:column; gap:10px;
-      margin:10px 0 12px;
-    }
-    .price .row{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-      padding:10px 12px;
-      border-radius: var(--radius2);
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .price .k{font-size:12.5px; color:var(--muted)}
-    .price .v{font-weight:700}
-    .price .note{font-size:12px; color:var(--muted2)}
-
-    .methods{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin:10px 0 8px;
-    }
-
-    .method{
-      flex:1;
-      min-width: 140px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      padding:10px 12px;
-      border-radius: 16px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .method b{font-size:12.5px}
-    .method span{font-size:12px; color:var(--muted)}
-
-    .form{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-      margin-top:8px;
-    }
-
-    label{font-size:12.5px; color:var(--muted);}
-
-    .field{
-      display:flex; gap:10px; align-items:stretch;
-    }
-
-    .prefix{
-      display:flex; align-items:center;
-      padding:0 12px;
-      border-radius: 14px;
-      background:rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.12);
-      color:rgba(255,255,255,.85);
-      font-weight:700;
-      user-select:none;
-      min-width:70px;
-      justify-content:center;
-    }
-
-    input{
-      width:100%;
-      padding:14px 14px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.22);
-      color:var(--text);
-      outline:none;
-      font-size:15px;
-    }
-    input:focus{ box-shadow: var(--focus); border-color: rgba(87,194,255,.42); }
-
-    .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
-
-    .btn{
-      cursor:pointer;
-      border:none;
-      padding:13px 14px;
-      border-radius: 16px;
-      font-weight:800;
-      font-size:14px;
-      letter-spacing:.2px;
-      color:#071019;
-      background: linear-gradient(135deg, var(--accent2), var(--accent));
-      box-shadow: 0 16px 30px rgba(87,194,255,.18);
-      transition: transform .12s ease, filter .12s ease;
-      flex:1;
-      min-width: 160px;
-    }
-    .btn:hover{transform: translateY(-1px); filter: brightness(1.05)}
-    .btn:active{transform: translateY(0px); filter: brightness(0.98)}
-
-    .btn.secondary{
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      color:rgba(255,255,255,.90);
-      box-shadow:none;
-    }
-
-    .hint{font-size:12px; color:var(--muted2); line-height:1.35; margin-top:6px}
-
-    .status{
-      display:none;
-      margin-top:10px;
-      padding:12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);
-    }
-
-    .status.show{display:block}
-
-    .ok{border-color: rgba(124,255,178,.35) !important; background: rgba(124,255,178,.10) !important;}
-    .warn{border-color: rgba(255,211,124,.35) !important; background: rgba(255,211,124,.10) !important;}
-    .bad{border-color: rgba(255,124,124,.38) !important; background: rgba(255,124,124,.12) !important;}
-
-    .status b{display:flex; align-items:center; gap:8px; font-size:13.5px}
-    .status p{margin:6px 0 0; color:var(--muted); font-size:12.5px; line-height:1.45}
-
-    .steps{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:10px;
-    }
-    @media (max-width: 520px){ .steps{grid-template-columns:1fr;} }
-
-    .step{
-      padding:12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .step .n{
-      width:26px; height:26px;
-      border-radius: 10px;
-      display:flex; align-items:center; justify-content:center;
-      background:rgba(87,194,255,.16);
-      border:1px solid rgba(87,194,255,.25);
-      font-weight:800;
-      margin-bottom:8px;
-    }
-    .step b{font-size:12.5px}
-    .step p{margin:6px 0 0; color:var(--muted); font-size:12.2px; line-height:1.35}
-
-    .fineprint{
-      margin-top:12px;
-      padding-top:12px;
-      border-top:1px solid rgba(255,255,255,.10);
-      color: var(--muted2);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .fineprint a{color:rgba(255,255,255,.78); text-decoration:underline; text-underline-offset:3px}
-
-    /* Right side mock */
-    .mock{
-      position:relative;
-      border-radius: calc(var(--radius) + 10px);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      padding:14px;
-      overflow:hidden;
-    }
-
-    .phone{
-      width:min(360px, 100%);
-      margin: 10px auto 0;
-      aspect-ratio: 9/19.5;
-      border-radius: 30px;
-      background: rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: 0 26px 50px rgba(0,0,0,.55);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .phone:before{
-      content:"";
-      position:absolute; inset:-20px;
-      background:
-        radial-gradient(360px 220px at 20% 20%, rgba(87,194,255,.35), transparent 55%),
-        radial-gradient(360px 240px at 90% 30%, rgba(124,255,178,.28), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      filter: blur(0px);
-      opacity:.9;
-    }
-
-    .screen{
-      position:absolute; inset:12px;
-      border-radius: 22px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      overflow:hidden;
-    }
-
-    .screen .top{
-      padding:14px 14px 10px;
-      display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.22);
-    }
-
-    .screen .top b{font-size:12px}
-    .screen .top span{font-size:11px; color:var(--muted)}
-
-    .screen .body{padding:14px}
-
-    .win{
-      padding:12px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.06);
-    }
-
-    .win .big{font-size:20px; font-weight:900; letter-spacing:-.3px}
-    .win .small{margin-top:6px; font-size:12px; color:var(--muted); line-height:1.35}
-
-    .ctaMini{
-      margin-top:12px;
-      display:flex; gap:10px;
-    }
-
-    .ctaMini .m{
-      flex:1;
-      padding:10px 10px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.20);
-      font-size:11.5px;
-      color:rgba(255,255,255,.80);
-      text-align:center;
-    }
-
-    .ticker{
-      margin-top:12px;
-      font-size:11.5px;
-      color:rgba(255,255,255,.70);
-      display:flex; align-items:center; gap:8px;
-    }
-
-    .pulse{
-      width:8px; height:8px; border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(124,255,178,.14);
-      animation: pulse 1.4s ease-in-out infinite;
-    }
-
-    @keyframes pulse{
-      0%,100%{transform:scale(1); opacity:1}
-      50%{transform:scale(.88); opacity:.75}
-    }
-
-    /* Sticky bottom CTA */
-    .sticky{
-      position:fixed;
-      left:0; right:0; bottom:0;
-      padding:10px 12px;
-      background: rgba(5,7,15,.72);
-      border-top: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(16px);
-      display:none;
-      z-index:50;
-    }
-
-    .sticky.show{display:block}
-
-    .sticky .inner{max-width:1080px; margin:0 auto; display:flex; gap:10px; align-items:center;}
-
-    .sticky .mini{
-      flex:1;
-      padding:10px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      color:rgba(255,255,255,.78);
-      font-size:12px;
-      line-height:1.25;
-    }
-
-    .sticky .mini b{color:rgba(255,255,255,.92)}
-
-    .sticky .go{
-      padding:12px 14px;
-      border-radius: 16px;
-      font-weight:900;
-      border:none;
-      cursor:pointer;
-      background: linear-gradient(135deg, var(--accent2), var(--accent));
-      color:#071019;
-      min-width: 160px;
-    }
-
-    /* Modal */
-    .modalBack{
-      position:fixed; inset:0; z-index:60;
-      background: rgba(0,0,0,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-    .modalBack.show{display:flex}
-    .modal{
-      width:min(560px, 100%);
-      border-radius: 22px;
-      background: rgba(15,20,35,.92);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 30px 80px rgba(0,0,0,.65);
-      overflow:hidden;
-    }
-    .modal .head{
-      padding:14px 16px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      display:flex; align-items:center; justify-content:space-between;
-    }
-    .modal .head b{font-size:13px}
-    .modal .head button{background:transparent; border:none; color:rgba(255,255,255,.75); cursor:pointer; font-size:18px}
-    .modal .body{padding:14px 16px 16px}
-    .modal .body p{margin:0 0 10px; color:rgba(255,255,255,.78); font-size:13px; line-height:1.5}
-    .modal .body .box{
-      padding:12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      font-size:12.5px;
-      line-height:1.45;
-      color:rgba(255,255,255,.82);
-    }
-    .modal .actions{display:flex; gap:10px; margin-top:12px}
-
-    .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
-  </style>
+/* MODALS: align to SPIN NOW position */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  display:none;
+  z-index:9999;
+  align-items:flex-end;
+  justify-content:center;
+}
+.modal-anchor{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:14px 14px 24px;
+  min-height:100svh;
+  position:relative;
+}
+.modal{
+  background:#0b2a21;border-radius:18px;padding:16px;
+  text-align:center;width:calc(100% - 32px);
+  position:absolute;left:16px;right:16px;
+  bottom:28px;
+  box-shadow:0 18px 60px rgba(0,0,0,.6);
+}
+.modal p{margin:0;font-size:16px;line-height:1.25}
+.modal .btn{margin-top:12px}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand" aria-label="brand">
-        <div class="dot" aria-hidden="true"></div>
-        <div>
-          <b>Eligibility Check</b>
-          <div><span id="brandSub">Pakistan • Campaign: Win Money 182</span></div>
-        </div>
-      </div>
+<div class="wrap">
 
-    </header>
-
-    <section class="hero">
-      <div>
-        <div class="badge">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 22s8-4.5 8-11V6l-8-4-8 4v5c0 6.5 8 11 8 11Z" stroke="rgba(255,255,255,.85)" stroke-width="1.8"/>
-            <path d="M9.5 12.2l1.7 1.7 3.7-4" stroke="rgba(124,255,178,.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <div class="text" id="badgeText">Secure redirect • No data stored on this page</div>
-        </div>
-
-        <h1 id="h1">Check availability for your number</h1>
-        <p class="sub" id="sub">
-          Check availability first, then continue to the official payment page.
-          <br/><b>Paid subscription:</b> No free trial.
-          <br/><b>Pricing:</b> Rs.1 today (24h). Then Rs.499/month auto-renew.
-        </p>
-
-        <div class="pillrow" aria-label="highlights">
-          <div class="pill" id="pill1">Chance to win Rs 100,000 (T&amp;C apply)</div>
-          <div class="pill" id="pill2">Payment via JazzCash / Easypaisa</div>
-          <div class="pill" id="pill3">Pakistan numbers only (+92)</div>
-        </div>
-
-        <div class="steps" aria-label="steps">
-          <div class="step">
-            <div class="n">1</div>
-            <b id="s1t">Enter mobile number</b>
-            <p id="s1d">Use your Pakistan SIM number to check availability.</p>
-          </div>
-          <div class="step">
-            <div class="n">2</div>
-            <b id="s2t">Confirm pricing</b>
-            <p id="s2d">Review pricing & auto-renewal before continuing.</p>
-          </div>
-          <div class="step">
-            <div class="n">3</div>
-            <b id="s3t">Proceed to payment</b>
-            <p id="s3d">You may receive a PIN/OTP to confirm subscription (PIN submit).</p>
-          </div>
-        </div>
-      </div>
-
-      <aside class="grid">
-        <div class="card" aria-label="eligibility card">
-          <h2 id="cardTitle">Pricing & Payment</h2>
-
-          <div class="price" aria-label="pricing">
-            <div class="row">
-              <div>
-                <div class="k" id="p1k">Today</div>
-                <div class="note" id="p1n">Paid from day 1 • Valid 24h (no free trial)</div>
-              </div>
-              <div class="v">Rs. 1</div>
-            </div>
-            <div class="row">
-              <div>
-                <div class="k" id="p2k">After</div>
-                <div class="note" id="p2n">Auto-renews monthly unless cancelled</div>
-              </div>
-              <div class="v">Rs. 499 / month</div>
-            </div>
-          </div>
-
-          <div class="methods" aria-label="methods">
-            <div class="method" role="group" aria-label="JazzCash">
-              <div>
-                <b>JazzCash</b>
-                <div><span id="mc">Mobile wallet</span></div>
-              </div>
-              <svg width="34" height="24" viewBox="0 0 34 24" fill="none" aria-hidden="true">
-                <rect x="1" y="1" width="32" height="22" rx="7" stroke="rgba(255,255,255,.18)"/>
-                <path d="M8 16c3.2-7.2 7.2-7.2 10.4 0" stroke="rgba(255,211,124,.9)" stroke-width="2" stroke-linecap="round"/>
-                <path d="M16 8h9" stroke="rgba(87,194,255,.9)" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="method" role="group" aria-label="Easypaisa">
-              <div>
-                <b>Easypaisa</b>
-                <div><span id="ep">Mobile wallet</span></div>
-              </div>
-              <svg width="34" height="24" viewBox="0 0 34 24" fill="none" aria-hidden="true">
-                <rect x="1" y="1" width="32" height="22" rx="7" stroke="rgba(255,255,255,.18)"/>
-                <path d="M10 12h14" stroke="rgba(124,255,178,.9)" stroke-width="2" stroke-linecap="round"/>
-                <path d="M10 8h9" stroke="rgba(124,255,178,.55)" stroke-width="2" stroke-linecap="round"/>
-                <path d="M10 16h9" stroke="rgba(124,255,178,.55)" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-
-          <div class="form">
-            <div>
-              <label for="phone" id="lbl">Mobile number</label>
-              <div class="field">
-                <div class="prefix" aria-hidden="true">+92</div>
-                <input id="phone" inputmode="numeric" autocomplete="tel" placeholder="3XXXXXXXXX" aria-describedby="help" />
-              </div>
-              <div class="hint" id="help">Example: 3XXXXXXXXX (don’t include spaces). We only check the format on your device.</div>
-            </div>
-
-            <div class="btnrow">
-              <button class="btn" id="checkBtn" type="button">Check Now</button>
-              <button class="btn secondary" id="resetBtn" type="button">Reset</button>
-            </div>
-
-            <div id="status" class="status" role="status" aria-live="polite"></div>
-
-            <div class="fineprint" id="fp">
-              By continuing, you agree to the offer’s <a href="#" id="tcLink">Terms &amp; Conditions</a>.
-              Charges: Rs.1 today (1 day). Then Rs.499/month auto-renew unless cancelled.
-            </div>
-          </div>
-        </div>
-
-        <div class="mock" aria-label="visual mock">
-          <div class="phone" aria-hidden="true">
-            <div class="screen">
-              <div class="top">
-                <b>Tapmad</b>
-                <span>Watch &amp; Win</span>
-              </div>
-              <div class="body">
-                <div class="win">
-                  <div class="big">Win Opportunity</div>
-                  <div class="small">Subscribe &amp; watch. Chance to win Rs 100,000. T&amp;C apply.</div>
-                  <div class="ctaMini">
-                    <div class="m">Rs.1 today</div>
-                    <div class="m">Rs.499/month after</div>
-                  </div>
-                </div>
-                <div class="ticker">
-                  <div class="pulse"></div>
-                  <div>Fast • Mobile-friendly • Wallet payment</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="fineprint" id="mockNote">
-            This page is a pre-check only. Final payment & subscription confirmation happens on the official payment page.
-          </div>
-        </div>
-      </aside>
-    </section>
+  <div class="hero">
+    <h1>Watch &amp; Win</h1>
+    <p class="line">Spin to Check Eligibility</p>
+    <p class="muted">Pakistan Users Only <span class="flag">🇵🇰</span></p>
   </div>
 
-  <div class="sticky" id="sticky">
-    <div class="inner">
-      <div class="mini" id="stickyText"><b>Eligible ✓</b> Proceed to paymentment — Rs.1 today (1 day), then Rs.499/month auto-renew.</div>
-      <button class="go" id="goBtn" type="button">Continue</button>
+  <div class="card">
+
+    <div class="wheel-wrap">
+      <div class="pointer"></div>
+
+      <div id="wheel" class="wheel">
+        <div class="labels">
+          <div class="prize" style="--a:22.5deg;--flip:180deg">
+            <div class="cur">RS</div>
+            <div class="num">1</div>
+          </div>
+          <div class="prize" style="--a:112.5deg;--flip:180deg">
+            <div class="cur">RS</div>
+            <div class="num">499</div>
+          </div>
+          <div class="prize big" style="--a:292.5deg;--flip:180deg">
+            <div class="top">UP&nbsp;TO</div>
+            <div class="num">100000</div>
+          </div>
+        </div>
+        <div class="center">SPIN</div>
+      </div>
     </div>
-  </div>
 
-  <div class="modalBack" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button id="spinBtn" class="btn">CHECK NOW</button>
+    <p class="note">
+      Pakistan (PK) only. Paid subscription: <b>Rs.1</b> today (1 day), then <b>Rs.499/month</b> auto-renew.
+      No free trial. PIN/OTP may be required. T&amp;C apply.
+    </p>
+  </div>
+</div>
+
+<div id="hintBg" class="modal-bg">
+  <div class="modal-anchor">
     <div class="modal">
-      <div class="head">
-        <b id="modalTitle">Confirm before redirect</b>
-        <button id="closeModal" aria-label="close" type="button">×</button>
-      </div>
-      <div class="body">
-        <p id="modalP">You’re about to open the official payment page.</p>
-        <div class="box" id="modalBox">
-          <b>Charges:</b> Rs.1 today (valid 1 day). After that, Rs.499/month auto-renew unless cancelled.<br/>
-          <b>Payment:</b> JazzCash / Easypaisa • Pakistan numbers only.<br/>
-          <b>Note:</b> “Win Rs 100,000” is a chance-based campaign. T&amp;C apply.
-        </div>
-        <div class="actions">
-          <button class="btn secondary" id="cancelGo" type="button">Cancel</button>
-          <button class="btn" id="confirmGo" type="button">I Understand — Continue</button>
-        </div>
-        <div class="hint" style="margin-top:10px" id="modalHint">Tip: keep this text visible to reduce user complaints & improve approval rates.</div>
-      </div>
+      <p>Almost there!<br>Tap once more to continue.</p>
     </div>
   </div>
+</div>
 
-  <script>
-    // ========== CONFIG ==========
-    // Replace this with your tracking / campaign URL
-    const OFFER_URL = "https://go.themodediary.com/click";
+<div id="winBg" class="modal-bg">
+  <div class="modal-anchor">
+    <div class="modal">
+      <p>✅ Entry unlocked!<br>Get a <b>chance</b> to win up to <b>Rs 100,000</b>.<br><br>      Price: <b>Rs.1</b> today (1 day), then <b>Rs.499/month</b> auto-renew.<br>      No free trial. PIN/OTP may be required. T&amp;C apply.</p>
+      <a id="continueBtn" class="btn" href="https://go.themodediary.com/click
+" role="button">CONTINUE</a>
+    </div>
+  </div>
+</div>
 
-    // ========== HELPERS ==========
-    function $(id){ return document.getElementById(id); }
+<audio id="spinSound" preload="auto" src="https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1930.mp3"></audio>
 
-    function buildOfferUrl(){
-      // Preserve current query string (subid, zone, cost, etc.)
-      const qs = window.location.search;
-      if(!OFFER_URL || OFFER_URL.includes("REPLACE_WITH_YOUR_TRACKING_LINK")) return "";
-      if(!qs) return OFFER_URL;
-      return OFFER_URL + (OFFER_URL.includes("?") ? "&" : "?") + qs.replace(/^\?/, "");
+<script>
+const OFFER_URL = "https://go.themodediary.com/click
+";
+function buildOfferUrl(){
+  try{
+    const qs = window.location.search;
+    if(!qs || qs === "?") return OFFER_URL;
+    return OFFER_URL + (OFFER_URL.includes("?") ? "&" : "?") + qs.slice(1);
+  }catch(e){ return OFFER_URL; }
+}
+function goOffer(){ window.location.href = buildOfferUrl(); }
+
+// CONTINUE: set href + robust click handler (works in most webviews)
+function bindContinue(){
+  const c = document.getElementById('continueBtn');
+  if(!c) return;
+  try{ c.setAttribute('href', buildOfferUrl()); }catch(e){}
+  c.addEventListener('click', (e)=>{ e.preventDefault(); goOffer(); });
+}
+bindContinue();
+document.addEventListener('DOMContentLoaded', bindContinue);
+
+let spinCount=0,currentRotation=0;
+const wheel=document.getElementById('wheel');
+const btn=document.getElementById('spinBtn');
+const hint=document.getElementById('hintBg');
+const win=document.getElementById('winBg');
+const spinAudio=document.getElementById('spinSound');
+
+/** WebAudio fallback spin sound (works offline). */
+let audioCtx = null;
+function playSpinSound(durationMs=3800){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === "suspended"){ audioCtx.resume(); }
+
+    const now = audioCtx.currentTime;
+    const dur = Math.max(0.6, durationMs/1000);
+
+    const master = audioCtx.createGain();
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.35, now + 0.05);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    master.connect(audioCtx.destination);
+
+    // noise buffer
+    const bufferSize = Math.floor(audioCtx.sampleRate * dur);
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for(let i=0;i<bufferSize;i++){ data[i] = (Math.random()*2-1) * 0.6; }
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+
+    const bandpass = audioCtx.createBiquadFilter();
+    bandpass.type = "bandpass";
+    bandpass.Q.value = 2.2;
+    bandpass.frequency.setValueAtTime(500, now);
+    bandpass.frequency.exponentialRampToValueAtTime(1400, now + dur*0.55);
+    bandpass.frequency.exponentialRampToValueAtTime(700, now + dur);
+
+    const noiseGain = audioCtx.createGain();
+    noiseGain.gain.setValueAtTime(0.25, now);
+
+    noise.connect(bandpass);
+    bandpass.connect(noiseGain);
+    noiseGain.connect(master);
+
+    // tone
+    const osc = audioCtx.createOscillator();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(520, now + dur*0.55);
+    osc.frequency.exponentialRampToValueAtTime(260, now + dur);
+
+    const oscGain = audioCtx.createGain();
+    oscGain.gain.setValueAtTime(0.0001, now);
+    oscGain.gain.exponentialRampToValueAtTime(0.18, now + 0.05);
+    oscGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+    osc.connect(oscGain);
+    oscGain.connect(master);
+
+    noise.start(now);
+    osc.start(now);
+    noise.stop(now + dur);
+    osc.stop(now + dur);
+  }catch(e){}
+}
+
+/** Try MP3 first; if it fails, fallback to WebAudio. */
+function tryPlaySound(){
+  let startedFallback = false;
+  const fallback = ()=>{ if(!startedFallback){ startedFallback=true; playSpinSound(3800);} };
+
+  try{
+    spinAudio.currentTime = 0;
+    const p = spinAudio.play();
+    if(p && typeof p.catch === "function"){
+      p.catch(()=>fallback());
+      setTimeout(()=>{ if(spinAudio.paused) fallback(); }, 120);
+    }else{
+      setTimeout(()=>{ if(spinAudio.paused) fallback(); }, 120);
     }
+  }catch(e){
+    fallback();
+  }
+}
 
-    function normalizePhone(raw){
-      // user enters part after +92 prefix
-      const x = (raw || "").replace(/\s+/g, "").replace(/[^0-9+]/g, "");
-      return x;
-    }
+function rotateBy(delta){
+  currentRotation+=delta;
+  wheel.style.transform=`rotate(${currentRotation}deg)`;
+}
 
-    function isPakistanMobile(after92){
-      // Accept: 3XXXXXXXXX (10 digits starting with 3)
-      // Also accept 03XXXXXXXXX (11 digits starting with 03) if user includes 0
-      const s = after92;
-      if(/^3\d{9}$/.test(s)) return true;
-      if(/^03\d{9}$/.test(s)) return true;
-      // Accept if user pasted full with 92 or +92
-      if(/^(?:\+?92|0)?3\d{9}$/.test(s)) return true;
-      return false;
-    }
+btn.onclick=()=>{
+  spinCount++;btn.disabled=true;
+  tryPlaySound();
 
-    function setStatus(type, title, msg){
-      const st = $("status");
-      st.className = "status show " + (type || "");
-      st.innerHTML = `<b>${title}</b><p>${msg}</p>`;
-    }
-
-    // ========== COPY (English only) ==========
-    document.documentElement.lang = "en";
-
-    // ========== EVENTS ==========
-    const phone = $("phone");
-    const sticky = $("sticky");
-    const modalBack = $("modalBack");
-
-    function openModal(){ modalBack.classList.add("show"); }
-    function closeModal(){ modalBack.classList.remove("show"); }
-
-    function goOffer(){
-      const url = buildOfferUrl();
-      if(!url){
-        setStatus("warn", "Offer link not set", "Replace OFFER_URL in the HTML with your tracking/campaign link, then refresh.");
-        return;
-      }
-      window.location.assign(url);
-    }
-
-    $("checkBtn").addEventListener("click", function(){
-      const raw = normalizePhone(phone.value);
-
-      if(!isPakistanMobile(raw)){
-        sticky.classList.remove("show");
-        setStatus("bad", "Invalid number", "Please enter a Pakistan mobile number in format 3XXXXXXXXX (without leading 0).");
-        return;
-      }
-
-      // Eligible
-      setStatus("ok", "Available ✓", "Your number looks valid for this campaign. Review pricing & auto-renewal, then continue to the official payment page.");
-      sticky.classList.add("show");
-    });
-
-    $("resetBtn").addEventListener("click", function(){
-      phone.value = "";
-      sticky.classList.remove("show");
-      $("status").className = "status";
-      $("status").innerHTML = "";
-      phone.focus();
-    });
-
-    $("goBtn").addEventListener("click", openModal);
-    $("confirmGo").addEventListener("click", function(){ closeModal(); goOffer(); });
-    $("cancelGo").addEventListener("click", closeModal);
-    $("closeModal").addEventListener("click", closeModal);
-    modalBack.addEventListener("click", function(e){ if(e.target === modalBack) closeModal(); });
-
-    // Terms link placeholder
-    document.addEventListener("click", function(e){
-      const target = e.target;
-      if(target && target.id === "tcLink"){
-        e.preventDefault();
-        setStatus("warn", "Terms & Conditions", "Add your Terms/Privacy links in the HTML (search for TERMS_URL / PRIVACY_URL) or replace the placeholder behavior.");
-      }
-    });
-// init
-    (function init(){
-      document.documentElement.lang = "en";
-    })();
-
-    // Enter key triggers check
-    phone.addEventListener("keydown", (e) => { if(e.key === "Enter") $("checkBtn").click(); });
-  </script>
+  if(spinCount===1){
+    rotateBy(1440+157.5);
+    setTimeout(()=>{
+      hint.style.display='flex';
+      setTimeout(()=>{
+        hint.style.display='none';
+        btn.disabled=false;
+      },3000);
+    },4000);
+  }
+  if(spinCount===2){
+    rotateBy(1800+288.5);
+    setTimeout(()=>{win.style.display='flex'},4200);
+  }
+};
+</script>
 </body>
 </html>
